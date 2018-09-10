@@ -35,9 +35,9 @@ if($TGBot->settings['adminPostGreSQL']){
             }
         }
     }
+    
 
-
-if($TGBot->text == '/admin' or $TGBot->cbdata_text == '/admin' and $TGBot->botAdmin()){
+if($TGBot->text == '/admin' and $TGBot->botAdmin() or $TGBot->cbdata_text == '/admin' and $TGBot->botAdmin()){
     $buttons[] = array(
         array(
             'text' => 'Users Number',
