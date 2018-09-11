@@ -24,7 +24,7 @@ class TGBot{
                 $this->document = $this->update['message']['document'];
                 $this->photo = $this->update['message']['photo'];
                 $this->video = $this->update['message']['video'];
-                if($this->type == 'supergroup' or $this->type == 'group'){
+                if($this->type == 'supergroup' or $this->type == 'group' or $this->type == 'channel'){
                     $this->title = $this->update['message']['chat']['title'];
                     if($this->type == 'group'){
                         $this->all_members_are_administrators = $this->update['message']['chat']['all_members_are_administrators'];
@@ -67,12 +67,12 @@ class TGBot{
                     }
                     if(isset($this->update['message']['reply_to_message']['document'])){
                         $this->reply_document = $this->update['message']['reply_to_message']['document'];
-                        $this->reply_document_file_id = $this->update['message']['reply_to_message']['document'][0]['file_id']; 
+                        $this->reply_document_file_id = $this->update['message']['reply_to_message']['document']['file_id']; 
                         $this->reply_document_caption = $this->update['message']['reply_to_message']['caption'];                                                                                                   
                     }
                     if(isset($this->update['message']['reply_to_message']['video'])){
                         $this->reply_video = $this->update['message']['reply_to_message']['video'];
-                        $this->reply_video_file_id = $this->update['message']['reply_to_message']['video'][0]['file_id']; 
+                        $this->reply_video_file_id = $this->update['message']['reply_to_message']['video']['file_id']; 
                         $this->reply_video_caption = $this->update['message']['reply_to_message']['caption'];                                                                                                   
                     }
                 }
@@ -181,18 +181,15 @@ class TGBot{
             echo "Security test: OK. <br />";
         }
     }
-    public function settings($settings = ['disable_web_page_preview' => false, 'parse_mode' => 'HTML', 'MySQL' => true, 'PostgreSQL' => true]){
+    public function settings($settings = ['disable_web_page_preview' => 'false', 'parse_mode' => 'HTML', 'MySQL' => true, 'PostgreSQL' => true]){
         $this->settings = $settings;
-        if($settings['adminPostGreSQL'] and $settings['adminMySQL']){
-            die("Error. Cannot use adminPostGreSQL and adminMySQL together");
-        }
     }
-    public function botAdmin($user_id = NULL){
-        if($user_id == NULL){
-            $user_id = $this->user_id;
+    public function botAdmin($userID = NULL){
+        if($userID == NULL){
+            $userID = $this->user_id;
         }
         foreach($this->settings['admins'] as $admin){
-            if($admin == $user_id){
+            if($admin == $userID){
                 return true;
             }
         }
